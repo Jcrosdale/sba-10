@@ -9,8 +9,8 @@ import Recipe from './pages/Recipe';
 import Search from './pages/Search';
 
 import Navbar from './components/Navbar';
-import RecipeCard from './components/RecipeCard';
-import ErrorMessage from './components/ErrorMessage';
+//import RecipeCard from './components/RecipeCard';
+//import ErrorMessage from './components/ErrorMessage';
 
 
 export default function App() {
@@ -32,13 +32,13 @@ export default function App() {
         <Route path='/category'
          element={
           <Category recipes={recipes}
-            setRecipe={setRecipes} />}
+            setRecipes={setRecipes} />}
           />
 
           <Route path='/recipe'
            element={
             <Recipe recipes={recipes}
-              setRecipe={setRecipes} />}
+              setRecipes={setRecipes} />}
             />
 
           <Route path='/favorites'
