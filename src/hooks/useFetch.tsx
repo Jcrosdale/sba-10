@@ -4,12 +4,11 @@
 // Imports
 import { useState, useEffect } from 'react';
 
-const useFetchData = (url, options) => {
-    const url = 'https://www.themealdb.com/api/json/v1/'
+const useFetchData = <T,>(url: string) => {
 
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [data, setData] = useState<T | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (!url) return; // Don't fetch if URL is not provided
@@ -21,15 +20,15 @@ const useFetchData = (url, options) => {
 
         const fetchData = async () => {
             try {
-                const res = await fetch(url, { ...options, signal: controller.signal });
+                const res = await fetch(url, { signal: controller.signal });
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
-                const result = await res.json();
+                const result: T = await res.json();
                 setData(result);
             } catch (err) {
-                if (err.name !== 'AbortError') {
-                    setError(err);
+                if (err instanceof Error && err.name !== 'AbortError') {
+                    setError(err.message);
                 }
             } finally {
                 setLoading(false);
@@ -42,7 +41,7 @@ const useFetchData = (url, options) => {
         return () => {
             controller.abort();
         };
-    }, [url, options]); // Re-run if url or options change
+    }, [url]); // Re-run if url or options change
 
     return { data, loading, error };
 }
