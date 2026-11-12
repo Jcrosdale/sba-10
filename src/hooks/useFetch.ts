@@ -52,3 +52,4 @@ const useFetchData = <T,>(url: string) => {
 //         .then(data => console.log(data));
 // }, []); // Empty array: fetch once
 
+export default useFetchData;
