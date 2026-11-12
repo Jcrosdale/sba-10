@@ -14,7 +14,7 @@ interface FavoritesContextType {
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
 // Provider
-export const FavoritesProvider = ({ children }: {children: React.ReactNode }) => {
+export const FavoritesProvider = ({ children }: { children: React.ReactNode }) => {
     // Store favorite recipe IDs in state and localStorage
     // Empty array is the initial value
     const [favorites, setFavorites] = useLocalStorage<string[]>(
@@ -34,5 +34,29 @@ export const FavoritesProvider = ({ children }: {children: React.ReactNode }) =>
     const isFavorite = (id: string) => {
         return favorites.includes(id);
     };
+
     // Provide state and functions to child components
+   return (
+    <FavoritesContext.Provider
+        value={{
+            favorites,
+            addFavorite,
+            removeFavorite,
+            isFavorite
+        }}
+    >
+        {children}
+    </FavoritesContext.Provider>
+);
+    
 }
+
+// Custom hook
+export const useFavorites = () => {
+    const context = useContext(FavoritesContext);
+    // Error if outside provider
+    if (context === undefined) {
+        throw new Error('useFavorites must be used within a FavoritesProvider');
+    }
+    return context;
+};
