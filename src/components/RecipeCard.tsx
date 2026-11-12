@@ -20,4 +20,16 @@ const RecipeCard = ({ recipe }: RecipeCardProps) => {
             addFavorite(recipe.idMeal);
         }
     };
+
+    return(
+        <div className='recipe-card'>
+            <img src={recipe.strMealThumb} alt={recipe.strMeal} />
+            <h3>{recipe.strMeal}</h3>
+            <button onClick={handleFavorite}>
+                {favorite ? 'Remove Favorite' : 'Add Favorite'}
+            </button>
+        </div>
+    );
 };
+
+export default RecipeCard;
